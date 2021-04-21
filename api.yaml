@@ -630,7 +630,7 @@ paths:
       security:
          - cookieAuth: []
 
- /weather/{id}:
+  /weather/{id}:
     delete:
       tags:
       - weather
