@@ -645,7 +645,7 @@ paths:
         201:
           description: Deleted a weather location successful
         400:
-          $ref: Invalid or Missing parameters
+          description: Invalid or Missing parameters
         403:
           description: Permission denied
         404:
