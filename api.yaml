@@ -630,7 +630,7 @@ paths:
       security:
          - cookieAuth: []
 
- /weather/:id:
+ /weather/{id}:
     delete:
       tags:
       - weather
@@ -645,11 +645,11 @@ paths:
         201:
           description: Deleted a weather location successful
         400:
-          $ref: '#/components/responses/UnauthorizedError'
+          $ref: Invalid or Missing parameters
         403:
           description: Permission denied
         404:
-          description: User ID is missing in the route or the user ID cannot be found
+          description: The location to be deleted is not found.
         500:
           $ref: '#/components/responses/InternalSeverError'
       security:
