@@ -18,6 +18,8 @@ tags:
   description: All conversations routes
 - name: announcements
   description: All announcements routes
+- name: weather
+  description: All weather routes
 
 paths:
   /users:
@@ -554,6 +556,104 @@ paths:
           $ref: '#/components/responses/InternalSeverError'
       security:
          - cookieAuth: []
+
+  /weather:
+    get:
+      tags:
+      - weather
+      summary: Get a list of weather conditions
+      responses:
+        200:
+          description: Weather conditions return successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 2
+                    temperature:
+                      type: integer
+                      example: 70
+                      description: measured in Fahrenheit
+                    fireIndex:
+                      type: integer
+                      example: 50
+                    windSpeed:
+                      type: integer
+                      example: 30
+                      description: measured in mph
+                    humidity:
+                      type: integer
+                      example: 45
+                      description: measured as %
+                    city:
+                      type: string
+                      example: Los Angeles
+                      description: measured as a city
+                    
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        500:
+          $ref: '#/components/responses/InternalSeverError'
+      security:
+           - cookieAuth: []
+    post:
+      tags:
+      - weather
+      summary: Post a new Weather Location
+      requestBody:
+        description: The request body for creating new weather location
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                city:
+                  type: string
+                  example: San Diego    
+        required: true
+      responses:
+        201:
+          description: Weather location posted successfully
+        400:
+          description: Invalid or missing parameters
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        409:
+          description: Duplicate location added
+        500:
+          $ref: '#/components/responses/InternalSeverError'
+      security:
+         - cookieAuth: []
+
+ /weather/:id:
+    delete:
+      tags:
+      - weather
+      summary: Delete a weather location indicated by id
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      responses:
+        201:
+          description: Deleted a weather location successful
+        400:
+          $ref: '#/components/responses/UnauthorizedError'
+        403:
+          description: Permission denied
+        404:
+          description: User ID is missing in the route or the user ID cannot be found
+        500:
+          $ref: '#/components/responses/InternalSeverError'
+      security:
+        - cookieAuth: []
 
 
 components:
